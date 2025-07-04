@@ -1,0 +1,77 @@
+@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Đăng Nhập HISAKA";
+    // Chúng ta không dùng layout cho trang đăng nhập để có giao diện toàn màn hình theo mẫu HTML của bạn
+    Layout = null; 
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/custom-css/dangnhap.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="login-container">
+        <h1 class="logo">🌩 HISAKA</h1>
+        <div class="login-box">
+            <h2>Đăng nhập vào HISAKA</h2>
+            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+                <input type="text" asp-for="EmailOrPhoneNumber" placeholder="Email hoặc số điện thoại">
+                <span asp-validation-for="EmailOrPhoneNumber" class="text-danger"></span>
+                
+                <input type="password" asp-for="Password" placeholder="Mật khẩu">
+                <span asp-validation-for="Password" class="text-danger"></span>
+                
+                <button type="submit" class="login-btn">Đăng nhập</button>
+            </form>
+            <a href="#" class="forgot-password">Quên mật khẩu?</a>
+            <hr>
+            <a asp-controller="Account" asp-action="Register" class="register-btn">Tạo tài khoản mới</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h4>HỖ TRỢ KHÁCH HÀNG</h4>
+                <p><strong>Hotline:</strong> 1800 6934<br>(miễn phí, 08-22h kể cả T7, CN)</p>
+                <p><a href="#">Gửi yêu cầu hỗ trợ</a></p>
+                <p><a href="#">Hướng dẫn đặt hàng</a></p>
+                <p><a href="#">Phương thức vận chuyển</a></p>
+                <p><a href="#">Chính sách đổi trả</a></p>
+            </div>
+            <div>
+                <h4>VỀ HISAKA</h4>
+                <p><a href="#">Giới thiệu Hisaka.vn</a></p>
+                <p><a href="#">Tuyển Dụng</a></p>
+                <p><a href="#">Chính sách bảo mật</a></p>
+                <p><a href="#">Điều khoản sử dụng</a></p>
+                <p><a href="#">Liên hệ</a></p>
+            </div>
+            <div>
+                <h4>HỢP TÁC & LIÊN KẾT</h4>
+                <p><a href="#">https://hisaka.vn/clinic</a></p>
+                <p><a href="#">Hisaka cẩm nang</a></p>
+                <p>THANH TOÁN<br>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Visa_2021.svg/120px-Visa_2021.svg.png" height="20">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Mastercard-logo.png/120px-Mastercard-logo.png" height="20">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Flag_of_Vietnam.svg/120px-Flag_of_Vietnam.svg.png" height="20">
+                </p>
+            </div>
+            <div>
+                <h4>CẬP NHẬT THÔNG TIN KHUYẾN MÃI</h4>
+                <input type="email" placeholder="nhập email của bạn">
+                <button class="subscribe-btn">Đăng ký</button>
+            </div>
+        </div>
+    </footer>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+</body>
+</html>

@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\HISAKA.Web.props" />
+</Project>

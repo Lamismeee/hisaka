@@ -1,0 +1,379 @@
+@model HISAKA.Web.Models.Product
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="product-detail-page">
+    <div class="container">
+        <div class="breadcrumb">
+            <a asp-controller="Home" asp-action="Index">Trang chủ</a> >
+            <a asp-controller="Product" asp-action="List">Sản phẩm</a> >
+            <span>@Model.Name</span>
+        </div>
+
+        <div class="detail-wrapper">
+            <div class="product-gallery">
+                <img src="@Model.ImageUrl" alt="@Model.Name" class="main-image">
+                <div class="thumbnail-images">
+                    <img src="@Model.ImageUrl" alt="Thumbnail" class="thumbnail active">
+                    </div>
+            </div>
+
+            <div class="product-info-area">
+                <div class="brand">@Model.Brand</div>
+                <h1 class="product-name">@Model.Name</h1>
+                
+                <div class="rating-summary">
+                    @if (Model.ReviewCount > 0)
+                    {
+                        <span class="stars">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <i class='bx bxs-star @(i <= Model.AverageRating ? "filled" : "")'></i>
+                            }
+                        </span>
+                        <span class="average-rating">@Model.AverageRating.ToString("F1")</span>
+                        <span class="review-count">(@Model.ReviewCount đánh giá)</span>
+                    }
+                    else
+                    {
+                        <span class="no-reviews">Chưa có đánh giá nào.</span>
+                    }
+                </div>
+
+                <div class="price-section">
+                    @if (Model.DiscountedPrice.HasValue && Model.DiscountedPrice < Model.Price)
+                    {
+                        <div class="current-price">@Model.DiscountedPrice.Value.ToString("N0") ₫</div>
+                        <div class="original-price">Giá trị trường: <span>@Model.Price.ToString("N0") ₫</span></div>
+                        <div class="discount-info">Tiết kiệm: @((Model.Price - Model.DiscountedPrice.Value).ToString("N0")) ₫ (@(((Model.Price - Model.DiscountedPrice.Value) / Model.Price * 100).ToString("F0"))%)</div>
+                    }
+                    else
+                    {
+                        <div class="current-price">@Model.Price.ToString("N0") ₫</div>
+                    }
+                </div>
+
+                <div class="promo-section">
+                    <div class="promo-item">
+                        <i class='bx bxs-gift'></i> Tặng Bông Tẩy Trang Hotosu Cao Cấp 150 Miếng trị giá 38K (SL có hạn)
+                    </div>
+                </div>
+
+                <div class="product-attributes">
+                    <p><strong>Dung Tích:</strong> 2x20ml | 2x60ml | 20ml | 60ml | 60ml+2x20ml</p>
+                    <p><strong>Loại da phù hợp:</strong> @Model.SkinType</p>
+                    <p><strong>Công dụng chính:</strong> @Model.Benefits</p>
+                </div>
+
+                <div class="quantity-selector">
+                    <label for="quantity">Số lượng:</label>
+                    <input type="number" id="quantity" value="1" min="1">
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn add-to-cart-btn"><i class='bx bx-cart'></i> Giỏ hàng</button>
+                    <button class="btn buy-now-btn">Mua ngay Nowfree 2H</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-description-section">
+            <h2>Mô tả chi tiết</h2>
+            <p>@Html.Raw(Model.Description)</p>
+            </div>
+
+        <div class="user-reviews-section">
+            <h2>Đánh giá của khách hàng (@Model.ReviewCount)</h2>
+            @if (Model.Reviews != null && Model.Reviews.Any())
+            {
+                @foreach (var review in Model.Reviews)
+                {
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="user-name">@review.User?.FullName ?? "Người dùng ẩn danh"</span>
+                            <span class="review-date">@review.ReviewDate.ToString("dd/MM/yyyy")</span>
+                        </div>
+                        <div class="review-rating">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <i class='bx bxs-star @(i <= review.Rating ? "filled" : "")'></i>
+                            }
+                        </div>
+                        <p class="review-comment">@review.Comment</p>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>Chưa có đánh giá nào cho sản phẩm này. Hãy là người đầu tiên đánh giá!</p>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    /* CSS cho trang chi tiết sản phẩm (từ chitietsanpham.css) */
+    /* Bạn cần đảm bảo các style này được thêm vào file CSS chung hoặc file CSS riêng biệt cho trang này và được liên kết */
+    .product-detail-page {
+        padding: 20px 0;
+    }
+
+    .product-detail-page .container {
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    .breadcrumb {
+        margin-bottom: 20px;
+        font-size: 0.9em;
+        color: #777;
+    }
+
+    .breadcrumb a {
+        color: #e07f7c;
+        text-decoration: none;
+    }
+
+    .detail-wrapper {
+        display: flex;
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+
+    .product-gallery {
+        flex: 0 0 450px;
+    }
+
+    .product-gallery .main-image {
+        width: 100%;
+        height: 450px;
+        object-fit: contain;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .product-gallery .thumbnail-images {
+        display: flex;
+        gap: 10px;
+    }
+
+    .product-gallery .thumbnail {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border: 1px solid #eee;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: border-color 0.2s ease;
+    }
+
+    .product-gallery .thumbnail.active,
+    .product-gallery .thumbnail:hover {
+        border-color: #e07f7c;
+    }
+
+    .product-info-area {
+        flex-grow: 1;
+    }
+
+    .product-info-area .brand {
+        font-size: 1.1em;
+        color: #888;
+        margin-bottom: 5px;
+    }
+
+    .product-info-area .product-name {
+        font-size: 2.2em;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    .rating-summary {
+        margin-bottom: 15px;
+    }
+
+    .rating-summary .stars .bx.bxs-star {
+        color: #ccc;
+        font-size: 1.2em;
+    }
+    
+    .rating-summary .stars .bx.bxs-star.filled {
+        color: #ffc107; /* Màu vàng sao */
+    }
+
+    .rating-summary .average-rating {
+        font-weight: bold;
+        margin-left: 5px;
+    }
+
+    .rating-summary .review-count {
+        color: #777;
+        margin-left: 5px;
+    }
+    
+    .rating-summary .no-reviews {
+        font-style: italic;
+        color: #777;
+    }
+
+    .price-section {
+        margin-bottom: 20px;
+        background-color: #fce3e2; /* Nền hồng nhạt */
+        padding: 15px;
+        border-radius: 8px;
+    }
+
+    .price-section .current-price {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #e07f7c;
+    }
+
+    .price-section .original-price {
+        text-decoration: line-through;
+        color: #888;
+        font-size: 1.1em;
+        margin-top: 5px;
+    }
+
+    .price-section .discount-info {
+        color: #555;
+        font-size: 0.9em;
+        margin-top: 5px;
+    }
+
+    .promo-section {
+        margin-bottom: 20px;
+        border: 1px dashed #e07f7c;
+        padding: 15px;
+        border-radius: 8px;
+        background-color: #fffafa;
+    }
+
+    .promo-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #333;
+    }
+
+    .promo-item .bx {
+        font-size: 1.5em;
+        color: #e07f7c;
+    }
+
+    .product-attributes p {
+        margin-bottom: 8px;
+        color: #555;
+    }
+
+    .quantity-selector {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .quantity-selector label {
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .quantity-selector input[type="number"] {
+        width: 80px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        text-align: center;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+    }
+
+    .action-buttons .btn {
+        padding: 12px 25px;
+        border-radius: 25px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1.1em;
+        transition: background-color 0.2s ease;
+    }
+
+    .action-buttons .add-to-cart-btn {
+        background-color: #e07f7c;
+        color: white;
+    }
+
+    .action-buttons .add-to-cart-btn:hover {
+        background-color: #cc6b69;
+    }
+
+    .action-buttons .buy-now-btn {
+        background-color: #f0f0f0;
+        color: #e07f7c;
+        border: 1px solid #e07f7c;
+    }
+
+    .action-buttons .buy-now-btn:hover {
+        background-color: #e07f7c;
+        color: white;
+    }
+
+    .product-description-section,
+    .user-reviews-section {
+        margin-top: 40px;
+        border-top: 1px solid #eee;
+        padding-top: 30px;
+    }
+
+    .product-description-section h2,
+    .user-reviews-section h2 {
+        font-size: 1.8em;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .user-reviews-section .review-item {
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        background-color: #fdfdfd;
+    }
+
+    .user-reviews-section .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+
+    .user-reviews-section .user-name {
+        font-weight: bold;
+        color: #e07f7c;
+    }
+
+    .user-reviews-section .review-date {
+        font-size: 0.8em;
+        color: #777;
+    }
+
+    .user-reviews-section .review-rating .bx.bxs-star {
+        color: #ffc107;
+        font-size: 1.1em;
+    }
+
+    .user-reviews-section .review-comment {
+        margin-top: 10px;
+        color: #444;
+        line-height: 1.6;
+    }
+
+</style>
+@section Scripts {
+    }

@@ -1,0 +1,107 @@
+/* Custom styles for Hisaka Header and Footer based on mockups */
+:root {
+    --primary-hisaka: #e67878; /* Hồng đỏ như trong mockup */
+    --secondary-hisaka: #ffb367; /* Cam của nút đăng ký/khuyến mãi */
+    --text-dark: #333;
+    --text-light: #f8f9fa;
+    --bg-light-pink: #f8c9c9; /* Màu nền chung */
+}
+
+body {
+    font-family: 'Arial', sans-serif; /* Hoặc font Roboto nếu muốn */
+    background-color: var(--bg-light-pink);
+    color: var(--text-dark);
+    display: flex; /* Để footer luôn ở dưới cùng */
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px; /* Chiều rộng tối đa của container */
+}
+
+/* Header Top */
+.hisaka-header-top {
+    background-color: var(--primary-hisaka);
+    color: white;
+}
+
+.hisaka-header-top .logo-brand {
+    color: white !important;
+}
+
+.hisaka-header-top .search-bar .form-control {
+    border: none;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: var(--text-dark);
+}
+
+.hisaka-header-top .search-bar .search-icon {
+    color: var(--primary-hisaka) !important; /* Màu icon tìm kiếm */
+}
+
+.hisaka-header-top .action-item {
+    font-size: 0.9em;
+}
+
+.hisaka-header-top .action-item i {
+    font-size: 1.5em; /* Kích thước icon */
+    color: white; /* Màu icon */
+}
+
+/* Header Bottom (Navbar) */
+.hisaka-navbar-bottom {
+    background-color: white !important;
+    border-top: 1px solid #eee !important;
+    border-bottom: 1px solid #eee !important;
+}
+
+.hisaka-navbar-bottom .nav-link {
+    font-weight: bold;
+    color: var(--text-dark) !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+}
+
+.hisaka-navbar-bottom .nav-link:hover {
+    color: var(--primary-hisaka) !important;
+}
+
+/* Main Content area */
+main {
+    flex-grow: 1; /* Đẩy footer xuống dưới */
+}
+
+/* Footer */
+.hisaka-footer {
+    background-color: var(--primary-hisaka) !important;
+    color: white;
+    font-size: 0.9em;
+}
+
+.hisaka-footer h5 {
+    color: white;
+}
+
+.hisaka-footer a {
+    color: white;
+    text-decoration: none;
+}
+
+.hisaka-footer a:hover {
+    text-decoration: underline;
+}
+
+.hisaka-footer .input-group input {
+    border-radius: .25rem 0 0 .25rem !important; /* góc tròn bên trái */
+}
+.hisaka-footer .input-group button {
+    border-radius: 0 .25rem .25rem 0 !important; /* góc tròn bên phải */
+    background-color: var(--secondary-hisaka);
+    border-color: var(--secondary-hisaka);
+    color: white;
+}
+.hisaka-footer .input-group button:hover {
+    background-color: #e69100; /* Màu đậm hơn khi hover */
+    border-color: #e69100;
+}

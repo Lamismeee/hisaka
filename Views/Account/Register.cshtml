@@ -1,0 +1,79 @@
+@model RegisterViewModel
+
+@{
+    ViewData["Title"] = "Đăng Ký Tài Khoản HISAKA";
+    // Tương tự, đặt Layout = null để sử dụng layout riêng của file HTML gốc
+    Layout = null; 
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>@ViewData["Title"]</title>
+  <link rel="stylesheet" href="~/custom-css/taotaikhoan.css" asp-append-version="true" />
+</head>
+<body>
+  <div class="register-container">
+    <h1 class="logo">🌩 HISAKA</h1>
+    <div class="register-box">
+      <h2>Tạo tài khoản mới</h2>
+      <p>Nhanh chóng và dễ dàng.</p>
+      <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+        <div class="name-fields">
+          <input type="text" placeholder="Họ" />
+          <input type="text" asp-for="FullName" placeholder="Tên" /> </div>
+
+        <label>Ngày sinh</label>
+        <div class="dob-fields">
+          <select id="day-select"></select>
+          <select id="month-select"></select>
+          <select id="year-select"></select>
+        </div>
+
+        <label>Giới tính</label>
+        <div class="gender-options">
+          <label><input type="radio" name="gender" value="Female" /> Nữ</label>
+          <label><input type="radio" name="gender" value="Male" /> Nam</label>
+          <label><input type="radio" name="gender" value="Custom" /> Tùy chỉnh</label>
+        </div>
+
+        <input type="text" asp-for="EmailOrPhoneNumber" placeholder="Số di động hoặc email" required />
+        <span asp-validation-for="EmailOrPhoneNumber" class="text-danger"></span>
+
+        <input type="password" asp-for="Password" placeholder="Mật khẩu mới" required />
+        <span asp-validation-for="Password" class="text-danger"></span>
+
+        <input type="password" asp-for="ConfirmPassword" placeholder="Xác nhận mật khẩu" required />
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+        <p class="note">
+          Những người dùng dịch vụ của chúng tôi có thể đã tải thông tin liên hệ của bạn lên Hisaka. <a href="#">Tìm hiểu thêm</a>
+        </p>
+        <p class="policy">
+          Bằng cách nhấp vào Đăng ký, bạn đồng ý với <a href="#">Điều khoản</a>, <a href="#">Chính sách quyền riêng tư</a> và <a href="#">Chính sách cookie</a> của chúng tôi.
+        </p>
+
+        <button type="submit" class="register-btn">Đăng ký</button>
+      </form>
+      <p class="login-link">Bạn đã có tài khoản ư?</p>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-bar">
+      <div>HỖ TRỢ KHÁCH HÀNG</div>
+      <div>VỀ HISKA VN</div>
+      <div>HỢP TÁC & LIÊN KẾT</div>
+    </div>
+  </footer>
+
+  @section Scripts {
+      <script src="~/custom-js/register-date.js" asp-append-version="true"></script>
+      @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+  }
+</body>
+</html>
